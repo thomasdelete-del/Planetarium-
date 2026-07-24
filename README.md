@@ -1,3 +1,0 @@
-# Sternkarte
-
-Willkommen zur Sternkarte!
