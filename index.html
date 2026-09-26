@@ -24,7 +24,7 @@ if(location.protocol==="file:"){
 <div id="scroller">
 <section id="page-jumps" class="snap">
   <div class="jump-shell">
-    <div class="jump-title"><span class="title-main">Planetarium</span><span class="title-build">Version 11.35 · Build 20260902b · freigegeben</span></div>
+    <div class="jump-title"><span class="title-main">Planetarium</span><span class="title-build">Version 11.36 · Build 20260925a · Testversion</span></div>
     <div class="jump-sub">Didaktische Sprünge, Simulationen und Sternbild-Lernmodus. Jeder Schalter setzt Ort, Datum und Uhrzeit astronomisch plausibel und springt direkt zur Sternkarte.</div>
     <button class="jump-home" data-scene-id="current">🏠 Aktueller Himmel ▾</button>
 
@@ -138,7 +138,7 @@ if(location.protocol==="file:"){
   </div>
 </section>
 <section id="page-sky" class="snap">
-<header><h1>Planetarium</h1><p>Version 11.35 · Build 20260902b · freigegeben</p><div id="verinfo">Version 11.35 · Build 20260902b · freigegeben</div></header>
+<header><h1>Planetarium</h1><p>Version 11.36 · Build 20260925a · Testversion</p><div id="verinfo">Version 11.36 · Build 20260925a · Testversion</div></header>
 <div id="readout">–</div>
 <div id="year-bar">
   <button class="yb-btn" id="yb-back" title="1 Jahr zurück · halten: 10, dann 100 Jahre">◂</button>
@@ -151,6 +151,7 @@ if(location.protocol==="file:"){
 <div id="panel-handle"><button id="bhome" class="homebtn" data-action="home-view" title="Jetzt · aktuelle Zeit">Jetzt</button><button id="bpause" class="homebtn pausebtn" data-action="toggle-animation" title="Zeit starten / anhalten"><span class="bsym">▶</span></button><button id="borient" class="homebtn pausebtn" data-action="toggle-orientation" title="Lagemodus öffnen: Handy in den Himmel halten"><span class="bsym">📱</span></button><button id="bvr" class="homebtn pausebtn" data-action="toggle-vr-camera" title="VR: Sternkarte im Lagemodus über das Bild der rückseitigen Handykamera legen" aria-pressed="false"><span class="bsym">📷</span></button><button id="bview" class="homebtn pausebtn" data-action="toggle-view-mode" title="Beobachtermodus öffnen: realistischer Blick zum Horizont"><span class="bsym">👁</span></button></div>
 <button id="bview-fs" data-action="toggle-view-mode" title="Gesamter Himmel / Realistischer Blick"><span class="bsym">👁</span></button>
 <button id="orient-calib" data-action="calibrate-orientation" title="Kompass im Lagemodus auf die aktuelle Blickrichtung kalibrieren">◎ Kalibrieren</button>
+<button id="orient-ios-enable" type="button" hidden>📱 iPhone-Sensor aktivieren</button>
 <div id="orient-fallback-note">Alldocube-Fallback: Richtung manuell einstellen · ◀ ▶ Azimut · ▲ ▼ Höhe · ◀ ▶ Azimut · ▲ ▼ Höhe</div>
 <div id="orient-manual" aria-label="Manuelle Lagemodus-Steuerung">
   <button style="grid-column:2" data-action="manual-orientation" data-azimuth="0" data-altitude="8" title="höher">▲</button>
@@ -165,7 +166,7 @@ if(location.protocol==="file:"){
 <section id="page-panel" class="snap">
 <div id="panel-bar" data-action="scroll-to-sky"><span class="lg-title">🎛 Planetarium</span><button id="panel-close" data-action="scroll-to-sky" title="zurück zum Himmel">✕</button></div>
 <div id="panel-body">
-<div class="panel-sub">Simulierter Sternenhimmel · Tippen · Zoom · Karte<br>Version 11.35 · Build 20260902b · freigegeben</div>
+<div class="panel-sub">Simulierter Sternenhimmel · Tippen · Zoom · Karte<br>Version 11.36 · Build 20260925a · Testversion</div>
 <div class="ctrls">
   <button class="btn on" id="ba" data-action="toggle-animation">⏸ Pause</button>
   <button class="btn" data-action="set-now">Jetzt</button>
@@ -363,6 +364,7 @@ if(location.protocol==="file:"){
     <div class="guide-card">
       <h2>7 · Lagemodus</h2>
       <div class="ag-row"><b>Mit Kompass:</b> Wenn Magnetometer und Bewegungssensor verfügbar sind, richtet sich der Himmel automatisch nach der Gerätehaltung aus.</div>
+      <div class="ag-row"><b>iPhone/iPad:</b> Apple verlangt eine einmalige Bestätigung durch eine direkte Berührung. In der bereits geöffneten Himmelsansicht „iPhone-Sensor aktivieren“ antippen und den Systemdialog erlauben. Die Anwendung wechselt dafür nicht in eine Zwischenansicht.</div>
       <div class="ag-row"><b>Nur Gyroskop:</b> Die App kann relative Drehungen nutzen, kennt aber keine absolute Nordrichtung. Deshalb muss der Blick manuell kalibriert werden.</div>
       <div class="ag-row"><b>Alldocube / Fallback:</b> Wenn kein echter Kompass verfügbar ist, startet eine manuelle Lage-Steuerung statt eines fehlerhaften Kompassmodus.</div>
       <div class="ag-row"><b>Objekte:</b> Ein einfaches Antippen zeigt die Informationen zum Objekt. Ein Doppeltipp reagiert wie im Beobachtermodus und schaltet die immersive Ansicht um.</div>
@@ -470,7 +472,7 @@ if(location.protocol==="file:"){
     <button id="map-close" data-action="close-map">✕ Schließen</button>
   </div>
 </div>
-<script src="./src/legacy/01-core.js?v=20260902-planet-stops-moon" defer></script>
+<script src="./src/legacy/01-core.js?v=20260925-iphone-orientation" defer></script>
 <script src="./src/legacy/00-scheduler.js" defer></script>
 
 

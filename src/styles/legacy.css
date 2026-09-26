@@ -495,6 +495,16 @@ body.orient-mode #orient-calib{display:block}
 body.orient-mode #info-tr,body.orient-mode #year-bar,body.orient-mode #yb-hint{display:none!important}
 body.orient-mode.orient-kalibriert:not(.orient-fallback) #orient-calib{display:none}
 #orient-calib:active{background:rgba(125,214,255,.18)}
+#orient-ios-enable{
+  position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 58px);transform:translateX(-50%);z-index:195;
+  max-width:calc(100vw - 32px);min-height:44px;padding:.65rem 1rem;border-radius:999px;border:1px solid rgba(125,214,255,.62);
+  color:#effcff;background:rgba(5,18,31,.94);font:700 .78rem/1.15 'Inter',system-ui,sans-serif;letter-spacing:.01em;
+  box-shadow:0 8px 28px rgba(0,0,0,.48);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);white-space:nowrap;pointer-events:auto
+}
+#orient-ios-enable[hidden]{display:none!important}
+#orient-ios-enable:active{background:rgba(26,76,102,.96)}
+#orient-ios-enable:disabled{opacity:.65}
+body.orient-ios-permission #orient-calib{display:none!important}
 #orient-manual{display:none;position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 64px);transform:translateX(-50%);z-index:186;
   grid-template-columns:42px 42px 42px;grid-template-rows:34px 34px;gap:6px;align-items:center;justify-content:center;
   padding:.44rem;border-radius:18px;background:rgba(7,12,24,.58);border:1px solid rgba(125,214,255,.28);

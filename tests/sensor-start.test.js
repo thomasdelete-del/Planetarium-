@@ -14,8 +14,11 @@ test('phone startup enters orientation mode without a sensor probe',()=>{
 
 test('iOS permission is deferred to the first user gesture',()=>{
   const block=core.slice(core.indexOf('(function autoStartOrient(){'),core.indexOf('})();(function initLocationByTimezone'));
-  assert.match(block,/document\.addEventListener\("pointerdown",allow,true\)/);
-  assert.match(block,/api\.requestPermission\(\)\.then/);
+  assert.match(html,/id="orient-ios-enable"/);
+  assert.match(block,/showIOSOrientPermission\(true,"📱 iPhone-Sensor aktivieren"\)/);
+  assert.doesNotMatch(block,/document\.addEventListener\("pointerdown"/);
+  assert.match(core,/function requestIOSOrientPermission\(\)[\s\S]*api\.requestPermission\(\)\.then/);
+  assert.match(core,/orient-ios-enable[\s\S]*addEventListener\("click",requestIOSOrientPermission\)/);
 });
 
 test('startup has no sensor-check overlay',()=>{

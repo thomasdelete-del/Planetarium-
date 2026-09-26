@@ -1,4 +1,4 @@
-# Planetarium 11.35
+# Planetarium 11.36
 
 `Planetarium_N` ist ein interaktives, browserbasiertes
 Planetariums. Die Anwendung verbindet eine frei dreh- und zoombare Himmelskarte
