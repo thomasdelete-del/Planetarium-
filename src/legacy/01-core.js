@@ -3835,6 +3835,7 @@ function disableOrient(){try{clearTimeout(enableOrient._t)}catch(e){}try{showIOS
    Lagemodus danach die Kuppel- oder die Beobachterprojektion nutzt - die Projektion selbst
    bleibt unveraendert, nur die Knopf-Anzeige wird synchron gehalten. */
 function syncViewButtonsForOrient(){try{["bview","bview-fs"].forEach(function(id){var vb=document.getElementById(id);if(vb)vb.classList.remove("on")})}catch(e){}}
+function isIPhoneRuntime(){return /iPhone|iPod/i.test(navigator.userAgent||"")}
 function showIOSOrientPermission(show,label){
   const b=document.getElementById("orient-ios-enable");
   document.body.classList.toggle("orient-ios-permission",!!show);
@@ -3844,7 +3845,7 @@ function showIOSOrientPermission(show,label){
 }
 function requestIOSOrientPermission(){
   const api=window.DeviceOrientationEvent,b=document.getElementById("orient-ios-enable");
-  if(!api||typeof api.requestPermission!=="function"){showIOSOrientPermission(false);enableOrient();return}
+  if(!isIPhoneRuntime()||!api||typeof api.requestPermission!=="function"){showIOSOrientPermission(false);enableOrient();return}
   if(window.__orientPermPending)return;
   window.__orientPermPending=true;if(b){b.disabled=true;b.textContent="Sensorfreigabe wird geöffnet …"}
   api.requestPermission().then(s=>{
@@ -3971,7 +3972,7 @@ function toggleOrient(){/* Der Schalter waehlt den Lagemodus aus. Laeuft er bere
      einmal auf, danach feuert der Knopf ganz normal seinen eigenen onclick. Waehrend die
      Erlaubnisabfrage noch laeuft, ist orientMode noch nicht wahr, der Schutz greift
      also nicht; ohne dieses Flag koennte iOS zweimal nach der Erlaubnis fragen und die
-     Sensor-Erkennung kaeme durcheinander. */if(document.body.classList.contains("orient-ios-permission")){requestIOSOrientPermission();return}if(orientMode){showIOSOrientPermission(false);disableOrient();viewMode="dome";zoom=1;panX=0;panY=0;zoomedObj=null;interacting=0;try{["bview","bview-fs"].forEach(function(id){var b=document.getElementById(id);if(b)b.classList.remove("on")})}catch(e){}try{if(typeof updateTouchMode==="function")updateTouchMode()}catch(e){}if(W)draw();return}if(window.__orientPermPending)return;setPaused(false);setSpeedValue(1);ensureLiveTime();try{if(typeof DeviceOrientationEvent!=="undefined"&&typeof DeviceOrientationEvent.requestPermission==="function"){orientMode=true;document.body.classList.add("orient-mode");const b=document.getElementById("borient");if(b)b.classList.add("on");syncViewButtonsForOrient();showIOSOrientPermission(true,"📱 iPhone-Sensor aktivieren")}else if(typeof DeviceOrientationEvent!=="undefined"){enableOrient()}else{orientMode=true;document.body.classList.add("orient-mode");const b=document.getElementById("borient");if(b)b.classList.add("on");syncViewButtonsForOrient();enableOrientFallback("Kein Lagesensor · manueller Alldocube-Modus")}}catch(e){orientMode=true;document.body.classList.add("orient-mode");const b=document.getElementById("borient");if(b)b.classList.add("on");syncViewButtonsForOrient();enableOrientFallback("Lagesensor nicht verfügbar · manueller Modus")}}
+     Sensor-Erkennung kaeme durcheinander. */if(document.body.classList.contains("orient-ios-permission")){requestIOSOrientPermission();return}if(orientMode){showIOSOrientPermission(false);disableOrient();viewMode="dome";zoom=1;panX=0;panY=0;zoomedObj=null;interacting=0;try{["bview","bview-fs"].forEach(function(id){var b=document.getElementById(id);if(b)b.classList.remove("on")})}catch(e){}try{if(typeof updateTouchMode==="function")updateTouchMode()}catch(e){}if(W)draw();return}if(window.__orientPermPending)return;setPaused(false);setSpeedValue(1);ensureLiveTime();try{if(isIPhoneRuntime()&&typeof DeviceOrientationEvent!=="undefined"&&typeof DeviceOrientationEvent.requestPermission==="function"){orientMode=true;document.body.classList.add("orient-mode");const b=document.getElementById("borient");if(b)b.classList.add("on");syncViewButtonsForOrient();showIOSOrientPermission(true,"📱 iPhone-Sensor aktivieren")}else if(typeof DeviceOrientationEvent!=="undefined"){enableOrient()}else{orientMode=true;document.body.classList.add("orient-mode");const b=document.getElementById("borient");if(b)b.classList.add("on");syncViewButtonsForOrient();enableOrientFallback("Kein Lagesensor · manueller Alldocube-Modus")}}catch(e){orientMode=true;document.body.classList.add("orient-mode");const b=document.getElementById("borient");if(b)b.classList.add("on");syncViewButtonsForOrient();enableOrientFallback("Lagesensor nicht verfügbar · manueller Modus")}}
 let vrCameraStream=null,vrCameraPending=false;
 function stopVrCamera(){const v=document.getElementById("vr-camera-feed");if(v){try{v.pause()}catch(e){}v.srcObject=null}if(vrCameraStream){try{vrCameraStream.getTracks().forEach(t=>t.stop())}catch(e){}vrCameraStream=null}vrCameraPending=false;document.body.classList.remove("vr-mode");window.cameraStarOnly=false;if(window.__cameraObjectNamesBefore!==undefined){showObjectNames=window.__cameraObjectNamesBefore;delete window.__cameraObjectNamesBefore}try{syncNameLayerButtons()}catch(e){}const b=document.getElementById("bvr");if(b){b.classList.remove("on");b.setAttribute("aria-pressed","false")}if(W)draw()}
 async function toggleVrCamera(){if(vrCameraStream||document.body.classList.contains("vr-mode")){stopVrCamera();flashMsg("📷 VR-Kamera aus");return}if(vrCameraPending)return;if(!navigator.mediaDevices||typeof navigator.mediaDevices.getUserMedia!=="function"){flashMsg("⚠ Kamera nicht verfügbar · HTTPS erforderlich");return}vrCameraPending=true;try{const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});vrCameraStream=stream;const v=document.getElementById("vr-camera-feed");if(!v)throw new Error("Kameraelement fehlt");v.srcObject=stream;await v.play();if(!orientMode)toggleOrient();window.__cameraObjectNamesBefore=showObjectNames;showObjectNames=true;window.cameraStarOnly=true;document.body.classList.add("vr-mode");try{syncNameLayerButtons()}catch(e){}const b=document.getElementById("bvr");if(b){b.classList.add("on");b.setAttribute("aria-pressed","true")}if(W)draw();flashMsg("📷 Kamera an · hellste Sterne und Planeten beschriftet")}catch(e){stopVrCamera();const denied=e&&(""+e.name).match(/NotAllowed|PermissionDenied|Security/);flashMsg(denied?"⚠ Kamerazugriff nicht erlaubt":"⚠ Kamera konnte nicht gestartet werden")}finally{vrCameraPending=false}}
@@ -4192,16 +4193,18 @@ e.preventDefault();const prev={};Object.keys(tch).forEach(k=>prev[k]={...tch[k]}
   /* Handys starten ohne vorgeschaltete Sensorprüfung direkt im Lagemodus.
      iOS erlaubt die Systemfreigabe erst nach einer Benutzergeste. */
   const mobile=(navigator.maxTouchPoints||0)>0||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent||"");
+  const iphone=isIPhoneRuntime();
   const api=window.DeviceOrientationEvent;
   viewMode="real";zoom=1;panX=0;panY=0;zoomedObj=null;
   if(mobile){
-    if(api&&typeof api.requestPermission!=="function")enableOrient();
+    if(api&&(!iphone||typeof api.requestPermission!=="function"))enableOrient();
     else{
       orientMode=true;document.body.classList.add("orient-mode");
       const b=document.getElementById("borient");if(b)b.classList.add("on");
       syncViewButtonsForOrient();
       if(!api)enableOrientFallback("Kein Lagesensor · manueller Lagemodus");
-      else showIOSOrientPermission(true,"📱 iPhone-Sensor aktivieren");
+      else if(iphone)showIOSOrientPermission(true,"📱 iPhone-Sensor aktivieren");
+      else enableOrient();
     }
   }else{if(orientMode)disableOrient();setRealHome()}
   syncViewModeButtons();updateTouchMode();if(W)draw();__requestPlanetariumFrame();
